@@ -32,6 +32,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 
+import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -46,6 +47,8 @@ public class FlagHandler {
     // Added to blocks on BlockPlaceEvent Listener
     // When adding flags, you may want to add them to the hidden_flags_from_info config option list
     public static final Flag<String> PS_HOME = new StringFlag("ps-home");
+    public static final Flag<String> PS_CREATION_TIME = new StringFlag("ps-creation-time");
+    public static final Flag<Integer> PS_RADIUS = new IntegerFlag("ps-radius");
     public static final Flag<String> PS_BLOCK_MATERIAL = new StringFlag("ps-block-material");
     public static final Flag<String> PS_NAME = new StringFlag("ps-name");
     public static final Flag<Set<String>> PS_MERGED_REGIONS = new SetFlag<>("ps-merged-regions", new StringFlag("ps-merged-region"));
@@ -71,6 +74,8 @@ public class FlagHandler {
             registry.register(PS_NAME);
             registry.register(PS_MERGED_REGIONS);
             registry.register(PS_MERGED_REGIONS_TYPES);
+            registry.register(PS_CREATION_TIME);
+            registry.register(PS_RADIUS);
 
             registry.register(PS_LANDLORD);
             registry.register(PS_TENANT);
@@ -120,6 +125,8 @@ public class FlagHandler {
         region.setFlag(PS_HOME, home);
 
         region.setFlag(PS_BLOCK_MATERIAL, cpb.type);
+        region.setFlag(PS_RADIUS, cpb.xRadius);
+        region.setFlag(PS_CREATION_TIME, String.valueOf(Instant.now().getEpochSecond()));
     }
 
     public static List<String> getPlayerPlaceholderFlags() {
